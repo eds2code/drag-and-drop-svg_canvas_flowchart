@@ -47,7 +47,7 @@
           filter="url(#shadow)"
           stroke="#cccccc"
         ></rect>
-        <path
+        <!-- <path
           v-if="rects[index + 1]"
           :d="`M${rect.x + dimensions.width + 10} ${rect.y + (dimensions.height / 2)} 
               L ${rects[index + 1].x - 40} ${rects[index + 1].y + (dimensions.height / 2)}`"
@@ -55,7 +55,14 @@
           stroke-width="3"
           fill="transparent"
           marker-end="url(#arrowhead)"
-        ></path>
+        ></path> -->
+        <SvgArrow 
+          v-if="rects[index + 1]"
+          :rect="rect"
+          :rects="rects"
+          :index="index"
+          :dimensions="dimensions"
+        />
         
         <circle r="5" :cx="rect.x" :cy="rect.y + (dimensions.height / 2)" fill="red" class="svg__block-pointer"></circle>
         <circle r="5" :cx="rect.x + dimensions.width" :cy="rect.y + (dimensions.height / 2)" fill="red" class="svg__block-pointer"></circle>
@@ -80,6 +87,7 @@
 
 <script lang="ts">
 import { Vue, Component, Ref } from 'vue-property-decorator'
+import SvgArrow from './SvgArrow.vue'
 
 export interface Rect {
   id: number
@@ -89,7 +97,9 @@ export interface Rect {
   y: number
 }
 
-@Component
+@Component({ 
+  components: { SvgArrow }
+})
 export default class SvgCanvas extends Vue {
 
   @Ref() draggable!: any
